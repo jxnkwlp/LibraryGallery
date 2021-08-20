@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31612.314
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passingwind.LibraryGallery", "Passingwind.LibraryGallery\Passingwind.LibraryGallery.csproj", "{48F6E0A1-F948-4764-BDE3-BC6DF5FC4AF0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{23FA105C-DA74-4EEE-A8D1-B5FE959CD1CF}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passingwind.LibraryGallery.Core", "Passingwind.LibraryGallery.Core\Passingwind.LibraryGallery.Core.csproj", "{0F218612-E5FF-4C87-AA0D-F543F661A688}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{48F6E0A1-F948-4764-BDE3-BC6DF5FC4AF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48F6E0A1-F948-4764-BDE3-BC6DF5FC4AF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48F6E0A1-F948-4764-BDE3-BC6DF5FC4AF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48F6E0A1-F948-4764-BDE3-BC6DF5FC4AF0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F218612-E5FF-4C87-AA0D-F543F661A688}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F218612-E5FF-4C87-AA0D-F543F661A688}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F218612-E5FF-4C87-AA0D-F543F661A688}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F218612-E5FF-4C87-AA0D-F543F661A688}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BCE37C82-7058-48E9-A7F6-268589EF2EE7}
+	EndGlobalSection
+EndGlobal

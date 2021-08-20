@@ -1,0 +1,115 @@
+﻿@page "/gallery"
+@using Passingwind.LibraryGallery.Services
+
+@inject ILibraryService _libraryService
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JS
+
+<div class="container">
+    <div class="row mb-2">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="search..." value="@searchKey" @onchange="@(async (e) => { searchKey = e.Value.ToString(); await HandleSearch(e.Value); })" />
+            <button class="btn btn-primary" type="button">Search</button>
+        </div>
+    </div>
+    <div class="row gy-4 mb-5">
+        @foreach (var item in resultList)
+        {
+            <div class="col-3">
+                <div class="card gallery-item">
+                    <div class="card-header text-truncate" data-bs-toggle="tooltip" data-bs-placement="bottom" title="@item.Title"><a href="@item.Link" target="_blank">@item.Title</a></div>
+                    <div class="card-body">
+                        <h5 class="card-title"></h5>
+                        <p class="card-text" title="@item.Description">@item.Description</p>
+                    </div>
+                    @if (item.Tags?.Any() == true)
+                    {
+                        <div class="card-footer gallery-item-tags text-muted text-truncate" data-bs-toggle="tooltip" data-bs-placement="bottom" title="@(string.Join(", ",item.Tags.Select(x=>x.Name)))">
+                            <span class="oi oi-tags"></span> @(string.Join(", ",item.Tags.Select(x=>x.Name)))
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+
+        @if (resultList.Count == 0 && !string.IsNullOrEmpty(searchKey))
+        {
+            <h3>Nothing searched!</h3>
+        }
+
+    </div>
+
+    @if (pageCount > 1)
+    {
+        <nav class="row mt-2">
+            <ul class="pagination" style="justify-content: center;">
+                <li class="page-item">
+                    <button class="page-link" @onclick="(e=>HandleChangePage(pageIndex-1))">Previous</button>
+                </li>
+                <li class="page-item"><span class="page-link">@pageIndex/@pageCount</span></li>
+                <li class="page-item">
+                    <button class="page-link" @onclick="(e=>HandleChangePage(pageIndex+1))">Next</button>
+                </li>
+            </ul>
+        </nav>
+    }
+</div>
+ 
+
+@code {
+
+    int pageIndex = 1;
+    int pageSize = 16;
+    string searchKey = "";
+    int pageCount = 1;
+
+    List<LibraryGallery.Domains.Library> resultList = new List<Domains.Library>();
+
+
+    private async Task HandleChangePage(int page)
+    {
+        if (page < 1)
+            return;
+
+        this.pageIndex = page;
+
+        await GetListAsync();
+
+        await JS.InvokeVoidAsync("scrollToTop");
+    }
+
+    public async Task HandleSearch(object value)
+    {
+        this.pageIndex = 1;
+
+        await GetListAsync();
+
+        await JS.InvokeVoidAsync("scrollToTop");
+    }
+
+    private async Task GetListAsync()
+    {
+        var count = await _libraryService.GetCountAsync(null, filter: searchKey);
+        var list = await _libraryService.GetPagedListAsync((pageIndex - 1) * pageSize, pageSize, null, filter: searchKey);
+
+
+        this.pageCount = count % pageSize == 0 ? count / pageSize : count / pageSize + 1;
+
+        resultList.Clear();
+        resultList.AddRange(list);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        var query = QueryHelpers.ParseQuery(NavigationManager.Uri);
+
+        if (query.TryGetValue("pageIndex", out var page) && int.TryParse(page.ToString(), out this.pageIndex))
+        {
+        }
+
+        await GetListAsync();
+    }
+     
+}

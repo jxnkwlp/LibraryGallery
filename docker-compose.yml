@@ -1,0 +1,11 @@
+version: "3.7"
+
+services:
+  web:
+    build: 
+      context: .
+    volumes:
+      - ./app:/app
+    ports:
+      - 10001:80
+    restart: always

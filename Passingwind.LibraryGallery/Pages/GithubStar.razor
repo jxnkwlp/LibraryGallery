@@ -1,0 +1,52 @@
+﻿@page "/githubstars"
+@using Passingwind.LibraryGallery.Services
+@using Passingwind.LibraryGallery.Domains
+@using  System.Security.Claims
+
+@inject IGithubService _githubService
+@inject UserManager _userManager
+@inject AuthenticationStateProvider authenticationStateProvider
+
+<h3>GithubStar</h3>
+
+<div>
+	<button type="button" class="btn btn-primary" disabled="@_sync" @onclick="SyncAsync">Sync</button>
+</div>
+
+<div>@userId</div>
+
+<div>
+	@message
+</div>
+
+@code {
+	private string message;
+	private string userId;
+	private List<GithubRepository> _githubRepositories;
+	private bool _sync = false;
+
+	public async Task SyncAsync()
+	{
+		_sync = true;
+
+		await _githubService.SyncAsync(userId, (msg)=>
+		{
+			this.message = msg;
+		});
+
+		_sync = false;
+		this.message = null;
+	}
+
+	protected override async Task OnInitializedAsync()
+	{
+		await base.OnInitializedAsync();
+
+		var status = await authenticationStateProvider.GetAuthenticationStateAsync();
+
+		var userId = status.User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier);
+
+		this.userId = userId;
+	}
+
+}

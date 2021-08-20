@@ -1,0 +1,15 @@
+﻿@page "/"
+@using Passingwind.LibraryGallery.Domains
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+<div> 
+	<AuthorizeView>
+		<Authorized>
+			<span class="oi oi-aperture"></span>
+			@context.User.Identity.Name
+		</Authorized>
+	</AuthorizeView>
+</div>
